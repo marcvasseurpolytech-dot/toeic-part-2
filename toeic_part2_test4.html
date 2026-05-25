@@ -453,4 +453,209 @@ const DATA = {
   16: {
     question: "Can I help you find a specific book?",
     choices: { A:"Actually, I'm just browsing.", B:"Yes, it was written by a journalist.", C:"I read that one last summer." },
-    fr: "Proposition d'assistance commerciale au sein d'un espace de vente. L'expression idiomatique <em>just browsing</em> permet de décliner l'offre pol
+    fr: "Proposition d'assistance commerciale au sein d'un espace de vente. L'expression idiomatique <em>just browsing</em> permet de décliner l'offre poliment sans fermer la discussion.",
+    vocab: "<span>Specific book</span> = Livre particulier | <span>I'm just browsing</span> = Je jette juste un œil / je regarde seulement"
+  },
+  17: {
+    question: "We should hire another technician, shouldn't we?",
+    choices: { A:"Yes, our workload is increasing.", B:"No, she hasn't yet.", C:"A degrees in computer engineering." },
+    fr: "Question à étiquette (<em>tag question</em>) sollicitant une validation sur les ressources humaines. La réponse confirme le besoin structurel en apportant un indicateur de surcharge opérationnelle.",
+    vocab: "<span>Hire</span> = Recruter, embaucher | <span>Workload</span> = Charge de travail | <span>Increasing</span> = En augmentation, en hausse"
+  },
+  18: {
+    question: "When is the building inspection scheduled for?",
+    choices: { A:"On Wednesday afternoon.", B:"A certified safety inspector.", C:"The stairs are being repaired." },
+    fr: "Recherche d'une donnée purement temporelle (<em>When</em>). L'indication d'un créneau dans la semaine s'accorde sans ambiguïté. (B) est un piège thématique basé sur la dérivation nominale d'<em>inspection</em>.",
+    vocab: "<span>Scheduled for</span> = Planifié pour, prévu le | <span>Safety inspector</span> = Inspecteur de sécurité"
+  },
+  19: {
+    question: "Whose umbrella is this on the conference table?",
+    choices: { A:"It's small and black.", B:"I think it belongs to Susan.", C:"They're meeting in the boardroom." },
+    fr: "Question portant sur l'attribution de propriété (<em>Whose</em>). L'emploi de la tournure grammaticale <em>belongs to</em> identifie la collaboratrice détentrice de l'objet.",
+    vocab: "<span>Whose...?</span> = À qui... ? | <span>Umbrella</span> = Parapluie | <span>Belongs to</span> = Appartient à"
+  },
+  20: {
+    question: "Has the graphic designer finished the logo yet?",
+    choices: { A:"An award-winning agency.", B:"No, he's still working on it.", C:"I think the colors are nice." },
+    fr: "Suivi d'avancement de projet (<em>... yet?</em>). L'adverbe <em>still</em> indique la poursuite de l'activité en cours, infirmant l'achèvement complet pour le moment.",
+    vocab: "<span>Graphic designer</span> = Graphiste | <span>Still working on it</span> = Toujours en train de travailler dessus"
+  },
+  21: {
+    question: "Would you rather have lunch inside or out on the patio?",
+    choices: { A:"The patio has a lovely view.", B:"Yes, I usually do.", C:"A club sandwich, please." },
+    fr: "Question à choix alternatif (<em>A or B</em>) qui exclut une réponse par Oui ou par Non. Valoriser un attribut esthétique du lieu (<em>lovely view</em>) confirme implicitement la préférence géographique.",
+    vocab: "<span>Would you rather...?</span> = Préféreriez-vous... ? | <span>Inside</span> = À l'intérieur"
+  },
+  22: {
+    question: "I can't seem to locate my parking pass.",
+    choices: { A:"There's another one nearby.", B:"Let me look for another one nearby.", C:"I'd like to pay by credit card." },
+    fr: "Constat d'une difficulté logistique. L'interlocuteur réagit de manière proactive en proposant une assistance technique immédiate (<em>Let me look for...</em>) pour résoudre l'incident.",
+    vocab: "<span>Locate</span> = Localiser, retrouver | <span>Parking pass</span> = Badge / carte de stationnement"
+  },
+  23: {
+    question: "Why don't we have the truck's engine checked before the next delivery?",
+    choices: { A:"I'll have the mechanic take a look at it.", B:"Yes, I do drive a truck.", C:"They offer free shipping." },
+    fr: "Structure de suggestion préventive (<em>Why don't we...</em>). La réponse planifie l'action suggérée en déléguant la vérification au technicien spécialisé compétent.",
+    vocab: "<span>Truck's engine</span> = Moteur du camion | <span>Checked</span> = Vérifié, contrôlé"
+  },
+  24: {
+    question: "I still don't understand this software.",
+    choices: { A:"Yes, he did bring his computer.", B:"Wherever they can.", C:"It's only your first week here." },
+    fr: "Expression d'une frustration ou d'une courbe d'apprentissage lente. La réassurance managériale contextualise la situation en rappelant le caractère récent de l'intégration de la recrue.",
+    vocab: "<span>Software</span> = Logiciel | <span>First week here</span> = Première semaine ici"
+  },
+  25: {
+    question: "Do you want me to order the flowers for our banquet, or will you?",
+    choices: { A:"Mr. Yamada will take care of it.", B:"At the convention center.", C:"A beautiful flower garden." },
+    fr: "Arbitrage de tâches opérationnelles (<em>... or will you?</em>). La réponse écarte les deux options exclusives en signalant la prise en charge externe par un tiers identifié.",
+    vocab: "<span>Take care of it</span> = S'en occuper, prendre les choses en main | <span>Banquet</span> = Banquet, réception"
+  },
+  26: {
+    question: "Should we expect you for dinner at eight o'clock?",
+    choices: { A:"Well, I think I'm catching a cold.", B:"We took some with us.", C:"A friend suggested it to me." },
+    fr: "Vérification d'une disponibilité pour un événement. Évoquer un début d'altération de santé (<em>catching a cold</em>) sert d'explication indirecte pour justifier une réserve ou un désistement poli.",
+    vocab: "<span>Expect you</span> = Vous attendre | <span>Catching a cold</span> = Attraper un rhume / couver quelque chose"
+  },
+  27: {
+    question: "Have you found anyone to fill the receptionist position?",
+    choices: { A:"Organized and efficient.", B:"We did. He starts on Monday.", C:"It's just past the main entrance." },
+    fr: "Suivi d'un processus de recrutement en cours. Le pronom de confirmation court (<em>We did</em>) valide la fin des recherches et s'accompagne de l'indication de la date de prise de poste.",
+    vocab: "<span>Fill the position</span> = Pourvoir le poste / la fonction | <span>Receptionist</span> = Réceptionniste"
+  },
+  28: {
+    question: "How are we supposed to make ten more bracelets by tomorrow?",
+    choices: { A:"In the jewelry display.", B:"It really isn't enough time.", C:"Yes, I made it myself." },
+    fr: "Question marquant l'inquiétude face à des impératifs de production serrés. La réponse valide le constat initial en mettant l'accent sur le manque de temps flagrant pour absorber la charge.",
+    vocab: "<span>How are we supposed to...?</span> = Comment sommes-nous censés... ? | <span>Not enough time</span> = Pas assez de temps"
+  },
+  29: {
+    question: "When is your doctor's appointment scheduled for?",
+    choices: { A:"This afternoon at four.", B:"She's highly recommended.", C:"The health center on Bentley Avenue." },
+    fr: "Demande d'une coordonnée temporelle stricte (<em>When</em>). La réponse fournit une indication d'agenda précise dans la journée. (C) constitue un cas d'erreur de ciblage en répondant à <em>Where</em>.",
+    vocab: "<span>Doctor's appointment</span> = Rendez-vous médical | <span>Highly recommended</span> = Vivement recommandé"
+  },
+  30: {
+    question: "Why are we upgrading our payroll system?",
+    choices: { A:"I heard the new one's better.", B:"Every once in a while.", C:"A higher hourly wage." },
+    fr: "Recherche de la justification d'un investissement logiciel d'entreprise (<em>Why</em>). L'argumentation repose sur le gain de performance attendu de la nouvelle infrastructure.",
+    vocab: "<span>Upgrade</span> = Mettre à jour, moderniser | <span>Payroll system</span> = Système de gestion des paies"
+  },
+  31: {
+    question: "Aren't we going to reduce the prices of some items?",
+    choices: { A:"Yes, starting next week.", B:"No, I haven't seen them.", C:"A dynamic and growing market." },
+    fr: "Question à la forme négative portant sur une planification commerciale. L'affirmation (<em>Yes</em>) confirme la mise en application de l'opération tarifaire en y associant sa date de début.",
+    vocab: "<span>Reduce the prices</span> = Baisser les prix | <span>Items</span> = Articles, produits"
+  }
+};
+
+// ─── BUILD QUESTION GRID ──────────────────────────────────────
+const grid = document.getElementById('q-grid');
+const answers = {};
+
+QUESTIONS.forEach(n => {
+  const cell = document.createElement('div');
+  cell.className = 'q-cell';
+  cell.innerHTML = `
+    <div class="q-num">Question ${n}</div>
+    <div class="q-options">
+      <button class="opt-btn" data-q="${n}" data-opt="A" onclick="select(${n},'A',this)">A</button>
+      <button class="opt-btn" data-q="${n}" data-opt="B" onclick="select(${n},'B',this)">B</button>
+      <button class="opt-btn" data-q="${n}" data-opt="C" onclick="select(${n},'C',this)">C</button>
+    </div>
+  `;
+  grid.appendChild(cell);
+});
+
+function select(n, opt, btn) {
+  document.querySelectorAll(`[data-q="${n}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[n] = opt;
+  updateProgress();
+}
+
+function updateProgress() {
+  const count = Object.keys(answers).length;
+  document.getElementById('progress-text').textContent = count + ' / 25 réponses';
+  document.getElementById('progress-bar').style.width = (count / 25 * 100) + '%';
+  const left = 25 - count;
+  document.getElementById('unanswered-count').textContent =
+    left === 0 ? '✓ Toutes les questions répondues !' : left + ' question' + (left > 1 ? 's' : '') + ' sans réponse';
+  document.getElementById('submit-btn').disabled = count < 25;
+}
+
+// ─── SUBMIT & EVALUATION ──────────────────────────────────────
+function submitTest() {
+  document.getElementById('submit-section').style.display = 'none';
+  document.querySelectorAll('.opt-btn').forEach(b => b.onclick = null);
+
+  let correct = 0;
+  QUESTIONS.forEach(n => { if (answers[n] === KEYS[n]) correct++; });
+  const pct = Math.round(correct / 25 * 100);
+  const listenEst = Math.round(5 + (correct / 25) * 490);
+
+  document.getElementById('score-display').textContent = correct + '/25';
+  document.getElementById('score-pct').textContent = pct + '% de bonnes réponses';
+  document.getElementById('toeic-est').textContent = `Estimation score Listening TOEIC : ~${listenEst}/495`;
+
+  const container = document.getElementById('correction-content');
+  container.innerHTML = '';
+
+  QUESTIONS.forEach(n => {
+    const userAns = answers[n] || null;
+    const correctAns = KEYS[n];
+    const isCorrect = userAns === correctAns;
+    const d = DATA[n];
+
+    const item = document.createElement('div');
+    item.className = 'correction-item ' + (isCorrect ? 'ci-correct' : 'ci-wrong');
+
+    let pillsHTML = '';
+    if (userAns && !isCorrect) {
+      pillsHTML += `<span class="pill pill-wrong">Votre réponse : ${userAns}</span>`;
+    }
+    pillsHTML += `<span class="pill ${isCorrect ? 'pill-correct' : 'pill-right'}">${isCorrect ? '✔' : 'Bonne réponse :'} ${correctAns}</span>`;
+
+    let responsesHTML = '';
+    ['A','B','C'].forEach(letter => {
+      let cls = 'r-wrong';
+      let icon = '';
+      if (letter === correctAns) { cls = 'r-correct'; icon = '<span class="r-icon">✔</span>'; }
+      if (letter === userAns && !isCorrect) { cls = 'r-user-wrong'; icon = '<span class="r-icon">✗</span>'; }
+      responsesHTML += `
+        <div class="response-row ${cls}">
+          <span class="r-letter">${letter}</span>
+          <span>${d.choices[letter]}</span>
+          ${icon}
+        </div>`;
+    });
+
+    item.innerHTML = `
+      <div class="ci-top">
+        <span class="ci-icon">${isCorrect ? '✔' : '✗'}</span>
+        <span class="ci-badge">Q ${n}</span>
+        <div class="ans-pills">${pillsHTML}</div>
+      </div>
+      <div class="ci-body">
+        <div class="transcript-block">
+          <div class="transcript-q">
+            <span class="speaker">Question entendue</span>
+            ${d.question}
+          </div>
+          <div class="transcript-responses">${responsesHTML}</div>
+        </div>
+        <div class="explication">
+          ${d.fr}
+          ${d.vocab ? `<div class="vocab-box"><b>📚 Vocabulaire & analyse :</b><br>${d.vocab}</div>` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  const cs = document.getElementById('correction-section');
+  cs.classList.add('visible');
+  cs.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC Part 2 — Test 3 — Marc VASSEUR — Polytech Lille</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0d1b2a;
+    --navy2: #162840;
+    --navy3: #1e3a5f;
+    --gold:  #c8993a;
+    --gold-l:#e8b84b;
+    --cream: #f8f4ed;
+    --cream2:#f0ead8;
+    --border:#d4c5a9;
+    --text:  #1a1a2e;
+    --muted: #6b7280;
+    --correct:#1a7a4a;
+    --correct-bg:#d1fae5;
+    --wrong:  #9b1c1c;
+    --wrong-bg:#fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  #header {
+    background: var(--navy);
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  #header-left h1 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold-l); }
+  #header-left p  { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #94a3b8; margin-top: 3px; letter-spacing: .07em; }
+  #header-student { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: var(--gold-l); text-align: right; display: none; }
+  #header-student span { display: block; color: #94a3b8; font-size: .65rem; margin-top: 2px; }
+  #progress-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  #progress-text  { font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: #cbd5e1; }
+  #progress-bar-wrap { width: 140px; height: 5px; background: rgba(255,255,255,.15); border-radius: 99px; overflow: hidden; }
+  #progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-l)); border-radius: 99px; transition: width .4s; width: 0%; }
+
+  /* ── MAIN ── */
+  #main { max-width: 760px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* ── STUDENT IDENTITY PANEL ── */
+  #identity-panel {
+    background: white;
+    border: 2px solid var(--gold);
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin-bottom: 32px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.1);
+  }
+  #identity-panel h2 { font-family: 'Playfair Display', serif; font-size: 1.15rem; color: var(--navy); margin-bottom: 6px; }
+  #identity-panel .id-sub { font-family: 'JetBrains Mono', monospace; font-size: .7rem; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; margin-bottom: 22px; }
+  .id-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .id-field { display: flex; flex-direction: column; gap: 5px; }
+  .id-field label { font-family: 'JetBrains Mono', monospace; font-size: .68rem; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--navy3); }
+  .id-field input { border: 1.5px solid var(--border); border-radius: 7px; padding: 9px 13px; font-family: 'Source Serif 4', serif; font-size: .92rem; color: var(--text); background: var(--cream); transition: border-color .15s; outline: none; }
+  .id-field input:focus { border-color: var(--navy3); background: white; }
+  .id-field input.error { border-color: var(--wrong); }
+  .id-field-full { grid-column: 1 / -1; }
+  #btn-start { margin-top: 20px; background: linear-gradient(135deg, var(--gold), var(--gold-l)); color: var(--navy); border: none; padding: 12px 36px; font-family: 'Playfair Display', serif; font-size: .98rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all .2s; box-shadow: 0 4px 14px rgba(200,153,58,.35); }
+  #btn-start:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,153,58,.5); }
+  #id-error { color: var(--wrong); font-family: 'JetBrains Mono', monospace; font-size: .72rem; margin-top: 10px; display: none; }
+
+  /* ── TEST CONTENT ── */
+  #test-content { display: none; }
+
+  /* ── DIRECTIONS ── */
+  .directions-box { background: var(--navy2); color: #e2d9c8; border-left: 4px solid var(--gold); padding: 18px 24px; border-radius: 6px; margin-bottom: 32px; font-size: .88rem; line-height: 1.75; }
+  .directions-box strong { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--gold-l); display: block; margin-bottom: 6px; }
+
+  /* ── AUDIO PLAYER ── */
+  .audio-block { background: var(--navy); border-radius: 12px; padding: 24px 28px; margin-bottom: 36px; box-shadow: 0 6px 24px rgba(0,0,0,.25); }
+  .audio-block-label { font-family: 'JetBrains Mono', monospace; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; color: #64748b; margin-bottom: 12px; }
+  .audio-block h2 { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--gold-l); margin-bottom: 6px; }
+  .audio-block p { font-size: .83rem; color: #94a3b8; margin-bottom: 18px; line-height: 1.6; }
+  .audio-embed { width: 100%; border-radius: 8px; border: none; height: 80px; background: var(--navy2); }
+  .audio-fallback { margin-top: 12px; font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #64748b; }
+  .audio-fallback a { color: var(--gold-l); text-decoration: none; }
+  .audio-fallback a:hover { text-decoration: underline; }
+
+  /* ── QUESTION GRID ── */
+  .questions-box { background: white; border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.07); margin-bottom: 32px; }
+  .questions-box-header { background: var(--navy3); color: var(--gold-l); padding: 10px 20px; font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+  .q-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0; }
+  .q-cell { padding: 18px 20px; border-right: 1px solid var(--cream2); border-bottom: 1px solid var(--cream2); display: flex; flex-direction: column; gap: 10px; }
+  .q-num { font-family: 'JetBrains Mono', monospace; font-size: .78rem; color: var(--navy3); font-weight: 500; letter-spacing: .05em; }
+  .q-options { display: flex; gap: 8px; }
+  .opt-btn { width: 38px; height: 38px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-family: 'JetBrains Mono', monospace; font-size: .85rem; font-weight: 600; color: var(--navy3); cursor: pointer; transition: all .15s; display: flex; align-items: center; justify-content: center; }
+  .opt-btn:hover { border-color: var(--navy3); background: #f0f4ff; }
+  .opt-btn.selected { background: var(--navy); color: var(--gold-l); border-color: var(--navy); }
+
+  /* ── SUBMIT ── */
+  #submit-section { text-align: center; padding: 28px; background: var(--navy); border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,.2); }
+  #unanswered-count { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 600; color: var(--gold-l); display: block; margin-bottom: 8px; }
+  #submit-section p { color: #94a3b8; font-size: .85rem; margin-bottom: 14px; }
+  #submit-btn { background: linear-gradient(135deg, var(--gold), var(--gold-l)); color: var(--navy); border: none; padding: 13px 44px; font-family: 'Playfair Display', serif; font-size: 1rem; font-weight: 700; border-radius: 8px; cursor: pointer; transition: all .2s; box-shadow: 0 4px 14px rgba(200,153,58,.4); }
+  #submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,153,58,.5); }
+  #submit-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+  /* ── CORRECTION ── */
+  #correction-section { display: none; }
+  #correction-section.visible { display: block; margin-top: 40px; }
+  .score-banner { background: var(--navy); color: white; text-align: center; padding: 36px 24px; border-radius: 12px; margin-bottom: 36px; box-shadow: 0 8px 32px rgba(0,0,0,.25); }
+  .score-banner-student { font-family: 'JetBrains Mono', monospace; font-size: .72rem; color: #64748b; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 14px; }
+  .score-banner-student strong { color: var(--gold-l); }
+  .score-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold-l); margin-bottom: 8px; }
+  .big-score { font-family: 'JetBrains Mono', monospace; font-size: 3.6rem; font-weight: 600; line-height: 1; }
+  .score-sub { color: #94a3b8; font-size: .88rem; margin-top: 8px; }
+  .toeic-est { margin-top: 18px; padding: 12px 24px; background: rgba(200,153,58,.15); border: 1px solid var(--gold); border-radius: 8px; display: inline-block; font-size: .92rem; color: var(--gold-l); }
+  .correction-item { background: white; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 18px; box-shadow: 0 2px 8px rgba(0,0,0,.05); }
+  .ci-correct { border-left: 4px solid var(--correct); }
+  .ci-wrong   { border-left: 4px solid var(--wrong); }
+  .ci-top { display: flex; align-items: center; gap: 12px; padding: 14px 18px; border-bottom: 1px solid var(--cream2); background: var(--cream); }
+  .ci-icon { font-size: 1.2rem; }
+  .ci-badge { font-family: 'JetBrains Mono', monospace; font-size: .7rem; font-weight: 600; padding: 2px 10px; border-radius: 99px; }
+  .ci-correct .ci-badge { background: var(--correct-bg); color: var(--correct); }
+  .ci-wrong   .ci-badge { background: var(--wrong-bg); color: var(--wrong); }
+  .ans-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .pill { font-family: 'JetBrains Mono', monospace; font-size: .72rem; padding: 3px 12px; border-radius: 99px; font-weight: 600; }
+  .pill-correct { background: var(--correct-bg); color: var(--correct); }
+  .pill-wrong   { background: var(--wrong-bg); color: var(--wrong); text-decoration: line-through; }
+  .pill-right   { background: #dbeafe; color: #1d4ed8; }
+  .ci-body { padding: 16px 20px; }
+  .transcript-block { margin-bottom: 14px; }
+  .transcript-q { background: var(--navy2); color: #e2d9c8; padding: 10px 14px; border-radius: 8px 8px 0 0; font-style: italic; font-size: .9rem; line-height: 1.6; }
+  .transcript-q .speaker { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: var(--gold-l); display: block; margin-bottom: 4px; letter-spacing: .08em; text-transform: uppercase; }
+  .transcript-responses { border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
+  .response-row { display: flex; align-items: center; gap: 12px; padding: 9px 14px; font-size: .88rem; border-bottom: 1px solid var(--cream2); line-height: 1.5; }
+  .response-row:last-child { border-bottom: none; }
+  .response-row.r-correct { background: var(--correct-bg); }
+  .response-row.r-wrong   { background: #fafafa; }
+  .response-row.r-user-wrong { background: var(--wrong-bg); }
+  .r-letter { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: .85rem; min-width: 22px; color: var(--navy3); }
+  .response-row.r-correct .r-letter { color: var(--correct); }
+  .response-row.r-user-wrong .r-letter { color: var(--wrong); }
+  .r-icon { font-size: 1rem; margin-left: auto; flex-shrink: 0; }
+  .explication { background: var(--cream); border-left: 3px solid var(--gold); padding: 12px 16px; border-radius: 0 6px 6px 0; font-size: .87rem; line-height: 1.72; color: var(--text); }
+  .vocab-box { margin-top: 10px; padding: 8px 12px; background: white; border-radius: 6px; font-size: .82rem; line-height: 1.65; color: var(--muted); }
+  .vocab-box b { color: var(--text); }
+  .vocab-box span { font-family: 'JetBrains Mono', monospace; color: var(--navy3); font-weight: 500; }
+
+  @media (max-width: 540px) {
+    #main { padding: 20px 14px 60px; }
+    .q-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    #header { flex-wrap: wrap; gap: 10px; }
+    .id-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- STICKY HEADER -->
+<div id="header">
+  <div id="header-left">
+    <h1>TOEIC — Part 2 Listening · Test 3</h1>
+    <p>MARC VASSEUR &nbsp;|&nbsp; POLYTECH LILLE</p>
+  </div>
+  <div id="header-student"></div>
+  <div id="progress-block">
+    <div id="progress-text">0 / 25 réponses</div>
+    <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+  </div>
+</div>
+
+<div id="main">
+
+  <!-- ══ IDENTITY PANEL ══ -->
+  <div id="identity-panel">
+    <h2>Identification de l'étudiant</h2>
+    <p class="id-sub">Remplissez les champs ci-dessous avant de commencer le test</p>
+    <div class="id-row">
+      <div class="id-field">
+        <label for="inp-nom">Nom</label>
+        <input type="text" id="inp-nom" placeholder="DUPONT" autocomplete="family-name">
+      </div>
+      <div class="id-field">
+        <label for="inp-prenom">Prénom</label>
+        <input type="text" id="inp-prenom" placeholder="Jean" autocomplete="given-name">
+      </div>
+    </div>
+    <div class="id-row">
+      <div class="id-field id-field-full">
+        <label for="inp-dept">Département / Filière</label>
+        <input type="text" id="inp-dept" placeholder="ex. GI2A, INFO3, GMD4…" autocomplete="off">
+      </div>
+    </div>
+    <button id="btn-start" onclick="startTest()">Commencer le test →</button>
+    <div id="id-error">⚠ Veuillez remplir tous les champs avant de continuer.</div>
+  </div>
+
+  <!-- ══ TEST ══ -->
+  <div id="test-content">
+
+    <div class="directions-box">
+      <strong>PART 2 — Directions</strong>
+      You will hear a question or statement and three responses spoken in English. They will not be printed in your test book and will be spoken only one time. Select the best response to the question or statement and mark the letter (A), (B), or (C). Questions 7–31.
+    </div>
+
+    <div class="audio-block">
+      <div class="audio-block-label">Audio — Part 2 · Questions 7–31</div>
+      <h2>Lancez l'audio puis répondez aux questions</h2>
+      <p>Appuyez sur ▶ pour démarrer l'enregistrement. Les questions et réponses sont entendues une seule fois — comme au vrai TOEIC.</p>
+      <iframe class="audio-embed"
+        src="https://drive.google.com/file/d/1lxi0Jbs9LeDZS8QseEtSh2ikd7ujlOj0/preview"
+        allow="autoplay"
+        loading="lazy">
+      </iframe>
+      <div class="audio-fallback">
+        Problème de lecture ?
+        <a href="https://drive.google.com/file/d/1lxi0Jbs9LeDZS8QseEtSh2ikd7ujlOj0/view?usp=sharing" target="_blank">
+          Ouvrir dans Google Drive ↗
+        </a>
+      </div>
+    </div>
+
+    <div class="questions-box">
+      <div class="questions-box-header">Sélectionnez A, B ou C pour chaque question</div>
+      <div class="q-grid" id="q-grid"></div>
+    </div>
+
+    <div id="submit-section">
+      <span id="unanswered-count">25 questions sans réponse</span>
+      <p>Toutes les questions doivent être répondues pour valider.</p>
+      <button id="submit-btn" disabled onclick="submitTest()">Valider mes réponses</button>
+    </div>
+
+  </div>
+
+  <!-- ══ CORRECTION ══ -->
+  <div id="correction-section">
+    <div class="score-banner">
+      <div class="score-banner-student" id="score-student"></div>
+      <h2>Résultat — Part 2 · Test 3</h2>
+      <div class="big-score" id="score-display">—</div>
+      <div class="score-sub" id="score-pct"></div>
+      <div class="toeic-est" id="toeic-est"></div>
+    </div>
+    <div id="correction-content"></div>
+  </div>
+
+</div>
+
+<script>
+// ─── STUDENT IDENTITY ─────────────────────────────────────────
+let studentNom = '', studentPrenom = '', studentDept = '';
+
+function startTest() {
+  let hasError = false;
+  ['inp-nom','inp-prenom','inp-dept'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el.value.trim()) { el.classList.add('error'); hasError = true; }
+    else el.classList.remove('error');
+  });
+  if (hasError) { document.getElementById('id-error').style.display = 'block'; return; }
+
+  studentNom    = document.getElementById('inp-nom').value.trim().toUpperCase();
+  studentPrenom = document.getElementById('inp-prenom').value.trim();
+  studentDept   = document.getElementById('inp-dept').value.trim();
+
+  document.getElementById('identity-panel').style.display = 'none';
+  document.getElementById('test-content').style.display = 'block';
+
+  const hdr = document.getElementById('header-student');
+  hdr.style.display = 'block';
+  hdr.innerHTML = `${studentNom} ${studentPrenom}<span>${studentDept}</span>`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+['inp-nom','inp-prenom','inp-dept'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.classList.remove('error');
+    document.getElementById('id-error').style.display = 'none';
+  });
+});
+document.getElementById('inp-dept').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') startTest();
+});
+
+// ─── QUESTION DATA ────────────────────────────────────────────
+const QUESTIONS = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+
+const KEYS = {
+   7:'B',  8:'A',  9:'A', 10:'C', 11:'C',
+  12:'C', 13:'A', 14:'A', 15:'C', 16:'B',
+  17:'B', 18:'B', 19:'C', 20:'A', 21:'C',
+  22:'B', 23:'B', 24:'B', 25:'A', 26:'C',
+  27:'A', 28:'B', 29:'A', 30:'A', 31:'A'
+};
+
+const DATA = {
+  7: {
+    question: "Where is the checkout counter?",
+    choices: { A:"For my accountant.", B:"It's by entrance B.", C:"Just some office supplies." },
+    fr: `Question ouverte (<em>Where?</em>) → localisation attendue. (A) répond à <em>For whom?</em> — hors sujet, piège sur le mot <em>accountant</em> (comptable, pas lié à <em>counter</em>). (C) cite des fournitures de bureau — hors contexte. <strong>(B)</strong> répond directement à <em>where</em> avec une indication de lieu précise.`,
+    vocab: `<span>checkout counter</span> = caisse (d'un magasin) | <span>entrance B</span> = entrée B | <span>accountant</span> = comptable | <span>office supplies</span> = fournitures de bureau`
+  },
+  8: {
+    question: "Can I help you find something?",
+    choices: { A:"Thanks, but I found what I was looking for.", B:"Yes, it was a fine day.", C:"When are we leaving?" },
+    fr: `Offre de service (<em>Can I help you…?</em>). (B) piège phonétique : <em>fine</em> ressemble à <em>find</em> — distraction sonore classique du TOEIC. (C) est hors contexte. <strong>(A)</strong> décline poliment l'offre en expliquant que la recherche est terminée.`,
+    vocab: `<span>to find</span> = trouver | <span>I found what I was looking for</span> = j'ai trouvé ce que je cherchais | <span>fine</span> (adjectif) = bien, agréable ≠ <span>find</span> = trouver`
+  },
+  9: {
+    question: "What model of refrigerator did the restaurant order from us?",
+    choices: { A:"The least expensive one.", B:"Around 2 degrees Celsius.", C:"I'd rather get lunch to go." },
+    fr: `Question ouverte (<em>What model?</em>). (B) piège thématique : <em>refrigerator</em> → <em>2 degrees Celsius</em> (température de réfrigération — champ lexical de l'appareil, pas du modèle). (C) piège sémantique : <em>restaurant</em> → <em>lunch</em>. <strong>(A)</strong> répond directement en identifiant le modèle par son critère de prix.`,
+    vocab: `<span>model</span> = modèle | <span>refrigerator</span> = réfrigérateur | <span>to order</span> = commander | <span>least expensive</span> = le moins cher | <span>lunch to go</span> = déjeuner à emporter`
+  },
+  10: {
+    question: "This bus stops in Manchester, right?",
+    choices: { A:"He left a week ago.", B:"Use the overhead compartment.", C:"The schedule is posted on that wall." },
+    fr: `Tag question (<em>right?</em>) → confirmation attendue. (A) est hors contexte. (B) piège thématique : <em>overhead compartment</em> est du vocabulaire de transport, comme <em>bus</em> — distraction lexicale. <strong>(C)</strong> répond indirectement mais logiquement : le planning affiché sur le mur permet de vérifier les arrêts.`,
+    vocab: `<span>bus stop</span> = arrêt de bus | <span>overhead compartment</span> = compartiment à bagages (au-dessus des sièges) | <span>schedule</span> = horaire | <span>posted</span> = affiché`
+  },
+  11: {
+    question: "Who maintains the company website?",
+    choices: { A:"On the home page.", B:"Almost every day.", C:"Hassan's team does." },
+    fr: `Question ouverte (<em>Who?</em>). (A) piège lexical : <em>website</em> → <em>home page</em> — même domaine sémantique, mais répond à <em>Where?</em>. (B) répond avec une fréquence — répond à <em>When?</em>. <strong>(C)</strong> répond directement à <em>who</em> avec un nom propre et une ellipse verbale naturelle (<em>does</em> = maintains).`,
+    vocab: `<span>to maintain</span> = maintenir / gérer / administrer | <span>home page</span> = page d'accueil | <span>almost every day</span> = presque tous les jours | ellipse : <span>Hassan's team does</span> = l'équipe de Hassan (le fait)`
+  },
+  12: {
+    question: "Am I going in the right direction for the post office?",
+    choices: { A:"No, it's tomorrow afternoon.", B:"To borrow a book.", C:"Yes, it's two blocks away." },
+    fr: `Question fermée (<em>Am I…?</em>) → oui/non + indication. (A) répond avec une heure — piège temporel. (B) répond à <em>Why?</em> (but d'une action) — hors contexte. <strong>(C)</strong> confirme la direction et ajoute une indication de distance précise.`,
+    vocab: `<span>direction</span> = direction | <span>post office</span> = bureau de poste | <span>two blocks away</span> = à deux pâtés de maisons | <span>to borrow</span> = emprunter`
+  },
+  13: {
+    question: "Where can I buy a computer mouse?",
+    choices: { A:"I have an extra one.", B:"Tomorrow works for me.", C:"I just need to make ten copies." },
+    fr: `Question ouverte (<em>Where?</em>). (B) répond avec un moment (quand, pas où). (C) piège thématique : <em>computer</em> → <em>copies</em> (vocabulaire informatique/bureau). <strong>(A)</strong> répond indirectement mais efficacement : avoir un exemplaire en surplus évite à l'interlocuteur d'en acheter un.`,
+    vocab: `<span>computer mouse</span> = souris d'ordinateur | <span>extra</span> = supplémentaire / en surplus | <span>to make copies</span> = faire des photocopies | réponse indirecte d'offre : <span>I have an extra one</span> = j'en ai un de spare`
+  },
+  14: {
+    question: "We're going out to lunch, if you're available.",
+    choices: { A:"I've got too much work to do.", B:"There are several colours available.", C:"The product launch." },
+    fr: `Invitation conditionnelle (<em>if you're available</em>). (B) piège lexical : <em>available</em> est repris dans un contexte totalement différent (couleurs disponibles). (C) piège phonétique majeur : <em>launch</em> ressemble à <em>lunch</em> — l'un des pièges les plus fréquents de la Part 2. <strong>(A)</strong> décline l'invitation en donnant une raison valable.`,
+    vocab: `<span>to go out to lunch</span> = sortir déjeuner | <span>available</span> = disponible | <span>product launch</span> = lancement de produit | ⚠ piège : <span>launch</span> ≈ <span>lunch</span> (phonétique)`
+  },
+  15: {
+    question: "Why is our website so slow today?",
+    choices: { A:"50 kilometres an hour.", B:"The sightseeing bus is full today.", C:"Because it is being updated." },
+    fr: `Question ouverte (<em>Why?</em>) → cause. (A) piège sémantique : <em>slow</em> → vitesse en km/h (association de sens). (B) piège : <em>slow</em> → <em>sightseeing bus</em> (autre sens de lent/plein). <strong>(C)</strong> répond directement à <em>why</em> avec une cause logique au passif progressif.`,
+    vocab: `<span>slow</span> = lent | <span>to update</span> = mettre à jour | <span>being updated</span> = en cours de mise à jour (passif progressif) | <span>sightseeing bus</span> = bus touristique`
+  },
+  16: {
+    question: "What do you think of the proofs for your latest book?",
+    choices: { A:"No, I'll be able to make it on time.", B:"I sent an email with my notes.", C:"Sure, I can book the flights." },
+    fr: `Question ouverte (<em>What do you think of…?</em>) → opinion. (A) répond par oui/non (format inadapté). (C) piège lexical : <em>book</em> → <em>book the flights</em> (polysémie classique TOEIC). <strong>(B)</strong> répond indirectement : l'e-mail avec ses annotations est la façon dont il/elle a partagé son avis.`,
+    vocab: `<span>proofs</span> = épreuves (d'imprimerie / de relecture) | <span>latest</span> = dernier / le plus récent | <span>to book</span> = réserver (≠ <span>book</span> = livre) | <span>notes</span> = annotations / commentaires`
+  },
+  17: {
+    question: "Haven't you read the latest research report?",
+    choices: { A:"We'll need a ladder to clean that shelf.", B:"No, I haven't had a chance yet.", C:"Please send me your new address." },
+    fr: `Question négative (<em>Haven't you…?</em>). (A) est hors contexte — <em>ladder</em> et <em>shelf</em> n'ont aucun rapport avec le contexte. (C) est hors sujet. <strong>(B)</strong> répond directement et naturellement à la question négative en s'excusant implicitement.`,
+    vocab: `<span>research report</span> = rapport de recherche | <span>latest</span> = dernier / le plus récent | <span>I haven't had a chance yet</span> = je n'ai pas encore eu l'occasion | <span>ladder</span> = échelle`
+  },
+  18: {
+    question: "How do I submit my timesheet?",
+    choices: { A:"We had a lovely time.", B:"Our computer system is down right now.", C:"Because she has experience." },
+    fr: `Question ouverte (<em>How?</em>) → procédure. (A) piège lexical : <em>time</em> dans <em>timesheet</em> → <em>lovely time</em>. (C) répond à <em>Why?</em> — hors format. <strong>(B)</strong> répond indirectement mais logiquement : le système étant en panne, impossible de soumettre — explication valide de l'impossibilité d'exécuter la procédure demandée.`,
+    vocab: `<span>to submit</span> = soumettre / envoyer | <span>timesheet</span> = feuille de temps / relevé d'heures | <span>computer system is down</span> = le système informatique est en panne | <span>right now</span> = en ce moment`
+  },
+  19: {
+    question: "Who's running the social media workshop?",
+    choices: { A:"Okay, I'll keep working on it.", B:"Once a week in April.", C:"Margaret and Sam are." },
+    fr: `Question ouverte (<em>Who?</em>). (A) répond avec une action (je continue à travailler) — hors sujet. (B) piège thématique : <em>workshop</em> → fréquence (<em>once a week</em>) — répond à <em>When?</em> et <em>How often?</em>, pas <em>Who?</em>. <strong>(C)</strong> répond directement à <em>who</em> avec deux noms propres et une ellipse naturelle (<em>are</em> = running it).`,
+    vocab: `<span>to run</span> = diriger / animer (un atelier) | <span>social media</span> = réseaux sociaux | <span>workshop</span> = atelier / formation | <span>once a week</span> = une fois par semaine`
+  },
+  20: {
+    question: "I can't find the digital microscope.",
+    choices: { A:"We can complete the work without it.", B:"Is he coming to the employee luncheon?", C:"She has a job at the electric company." },
+    fr: `Déclaration (<em>statement</em> — problème signalé). (B) est hors contexte. (C) piège thématique : <em>digital</em> → <em>electric company</em> (association technologique). <strong>(A)</strong> répond de manière pragmatique et constructive : on peut avancer sans l'appareil — réponse de résolution de problème typique du TOEIC.`,
+    vocab: `<span>digital microscope</span> = microscope numérique | <span>to complete</span> = terminer / finaliser | <span>without it</span> = sans lui | <span>electric company</span> = compagnie d'électricité`
+  },
+  21: {
+    question: "When will the technician be here to service the packaging machine?",
+    choices: { A:"A reasonable hourly rate.", B:"Yes, I turned it off.", C:"She'll be here this afternoon." },
+    fr: `Question ouverte (<em>When?</em>). (A) piège thématique : <em>technician</em> → <em>hourly rate</em> (rémunération d'un technicien — hors sujet). (B) piège : <em>machine</em> → <em>I turned it off</em> (vocabulaire machine). <strong>(C)</strong> répond directement à <em>when</em> avec une heure précise.`,
+    vocab: `<span>technician</span> = technicien(ne) | <span>to service</span> = entretenir / réviser / réparer | <span>packaging machine</span> = machine d'emballage | <span>hourly rate</span> = taux horaire`
+  },
+  22: {
+    question: "Is your business trip tomorrow or is it next week?",
+    choices: { A:"Seven hours.", B:"It's next week.", C:"I lost the receipt." },
+    fr: `Question alternative (<em>tomorrow or next week?</em>). (A) répond avec une durée — répond à <em>How long?</em>, pas <em>when</em>. (C) piège thématique : <em>business trip</em> → <em>receipt</em> (note de frais de voyage). <strong>(B)</strong> répond directement à la question alternative en choisissant l'une des deux options.`,
+    vocab: `<span>business trip</span> = voyage d'affaires | <span>receipt</span> = reçu / ticket de caisse / note de frais | <span>next week</span> = la semaine prochaine | <span>seven hours</span> = durée, pas date`
+  },
+  23: {
+    question: "Aren't there already enough volunteers for the event?",
+    choices: { A:"A grand opening ceremony.", B:"We need 15 people.", C:"I have the invoice." },
+    fr: `Question négative (<em>Aren't there already enough…?</em>). (A) piège thématique : <em>event</em> → <em>grand opening ceremony</em> (type d'événement). (C) est hors contexte. <strong>(B)</strong> répond indirectement mais clairement : préciser qu'on a besoin de 15 personnes signifie qu'il n'y en a pas encore assez — réponse implicite de type "non".`,
+    vocab: `<span>volunteers</span> = bénévoles | <span>event</span> = événement | <span>enough</span> = assez / suffisamment | <span>grand opening ceremony</span> = cérémonie d'inauguration | <span>invoice</span> = facture`
+  },
+  24: {
+    question: "The building permit has been approved, hasn't it?",
+    choices: { A:"Some lightweight building materials.", B:"Not yet, unfortunately.", C:"I saw that play last week." },
+    fr: `Tag question (<em>hasn't it?</em>). (A) piège lexical : <em>building</em> → <em>building materials</em> — même mot, sens différent. (C) piège phonétique subtil : <em>play/permit</em> n'ont pas de lien — réponse totalement hors contexte. <strong>(B)</strong> répond directement à la tag question en niant avec une nuance de regret.`,
+    vocab: `<span>building permit</span> = permis de construire | <span>to approve</span> = approuver / valider | <span>not yet</span> = pas encore | <span>lightweight</span> = léger | <span>unfortunately</span> = malheureusement`
+  },
+  25: {
+    question: "Did we receive any deliveries from the warehouse today?",
+    choices: { A:"I haven't seen any trucks.", B:"She's doing a great job.", C:"Free shipping." },
+    fr: `Question fermée (<em>Did we…?</em>). (B) est hors contexte. (C) piège thématique : <em>deliveries</em> → <em>free shipping</em> (vocabulaire logistique). <strong>(A)</strong> répond indirectement mais logiquement : n'avoir vu aucun camion suggère fortement qu'aucune livraison n'est arrivée — réponse implicite de type "non".`,
+    vocab: `<span>deliveries</span> = livraisons | <span>warehouse</span> = entrepôt | <span>I haven't seen any trucks</span> = je n'ai vu aucun camion (réponse indirecte) | <span>free shipping</span> = livraison gratuite`
+  },
+  26: {
+    question: "Why isn't the lock on the door working?",
+    choices: { A:"On 24th Street.", B:"That's a great idea.", C:"Maintenance is coming now." },
+    fr: `Question ouverte (<em>Why?</em>) → cause. (A) répond à <em>Where?</em> (lieu) — hors format. (B) est une réaction positive hors contexte. <strong>(C)</strong> répond indirectement mais de manière pragmatique : la maintenance est en route — cela implique qu'une intervention est prévue, sans expliquer la cause.`,
+    vocab: `<span>lock</span> = serrure | <span>working</span> = fonctionner | <span>maintenance</span> = équipe de maintenance / entretien | <span>coming now</span> = en route / qui arrive`
+  },
+  27: {
+    question: "When should I email the company newsletter?",
+    choices: { A:"Alice still needs to finish her article.", B:"I thought the title was interesting.", C:"A growing list of subscribers." },
+    fr: `Question ouverte (<em>When?</em>). (B) piège thématique : <em>newsletter</em> → <em>title</em> (contenu d'un bulletin). (C) piège thématique : <em>newsletter</em> → <em>subscribers</em> (lectorat). <strong>(A)</strong> répond indirectement à <em>when</em> : Alice doit d'abord terminer son article — sous-entendu, l'envoi doit attendre.`,
+    vocab: `<span>newsletter</span> = bulletin d'information | <span>to email</span> = envoyer par e-mail | <span>subscriber</span> = abonné(e) | <span>Alice still needs to finish</span> = réponse indirecte : "pas encore, attend qu'Alice finisse"`
+  },
+  28: {
+    question: "Why don't I pay for the meal this time?",
+    choices: { A:"The restaurant and the hotel.", B:"No, let's split the bill.", C:"Yesterday at 8." },
+    fr: `Suggestion (<em>Why don't I…?</em>). (A) donne des lieux hors contexte. (C) répond avec un moment passé — hors sujet. <strong>(B)</strong> décline poliment la suggestion et propose une alternative équitable — réponse naturelle et directe.`,
+    vocab: `<span>to pay for</span> = payer (pour) | <span>to split the bill</span> = partager l'addition | <span>meal</span> = repas | <span>this time</span> = cette fois-ci`
+  },
+  29: {
+    question: "How many stores will carry our home furnishings line?",
+    choices: { A:"That's a good question for David.", B:"The freeway is the fastest.", C:"Would you like a cup of coffee?" },
+    fr: `Question ouverte (<em>How many?</em>) → quantité. (B) est hors contexte (<em>freeway</em> = autoroute). (C) est une offre de café sans rapport. <strong>(A)</strong> répond indirectement mais logiquement : ne pas connaître la réponse et rediriger vers David est une réponse valide et naturelle en contexte professionnel.`,
+    vocab: `<span>to carry</span> = distribuer / proposer en rayon | <span>home furnishings</span> = articles d'ameublement | <span>line</span> = gamme (de produits) | <span>That's a good question for David</span> = "C'est à David qu'il faut poser la question"`
+  },
+  30: {
+    question: "Would you rather renovate this space or move to a new office?",
+    choices: { A:"The remodeling company did give us a good estimate.", B:"He can prove that claim.", C:"This show should have some new viewers." },
+    fr: `Question alternative (<em>renovate or move?</em>). (B) piège phonétique : <em>prove</em> ressemble à <em>move</em>. (C) piège : <em>show / new</em> évoquent vaguement le contexte. <strong>(A)</strong> répond indirectement en faveur de la rénovation : l'existence d'un bon devis oriente la décision sans la formuler explicitement.`,
+    vocab: `<span>to renovate</span> = rénover | <span>to move</span> = déménager | <span>remodeling company</span> = entreprise de rénovation | <span>estimate</span> = devis | <span>to prove</span> = prouver (≠ <span>to move</span>)`
+  },
+  31: {
+    question: "I can't figure out how to fix the slides for my presentation.",
+    choices: { A:"I have some free time now.", B:"No, it's scheduled for tomorrow.", C:"The present is on the shelf." },
+    fr: `Déclaration (<em>statement</em> — demande d'aide implicite). (B) piège thématique : <em>presentation</em> → <em>scheduled for tomorrow</em> (comme si la présentation avait un horaire). (C) piège phonétique : <em>present</em> ressemble à <em>presentation</em>. <strong>(A)</strong> répond en offrant implicitement son aide — avoir du temps libre maintenant = je peux t'aider.`,
+    vocab: `<span>to figure out</span> = comprendre / résoudre | <span>slides</span> = diapositives | <span>presentation</span> = présentation | <span>free time</span> = temps libre | <span>present</span> (nom) = cadeau ≠ <span>presentation</span>`
+  }
+};
+
+// ─── BUILD QUESTION GRID ──────────────────────────────────────
+const grid = document.getElementById('q-grid');
+const answers = {};
+
+QUESTIONS.forEach(n => {
+  const cell = document.createElement('div');
+  cell.className = 'q-cell';
+  cell.innerHTML = `
+    <div class="q-num">Question ${n}</div>
+    <div class="q-options">
+      <button class="opt-btn" data-q="${n}" data-opt="A" onclick="selectAns(${n},'A',this)">A</button>
+      <button class="opt-btn" data-q="${n}" data-opt="B" onclick="selectAns(${n},'B',this)">B</button>
+      <button class="opt-btn" data-q="${n}" data-opt="C" onclick="selectAns(${n},'C',this)">C</button>
+    </div>
+  `;
+  grid.appendChild(cell);
+});
+
+function selectAns(n, opt, btn) {
+  document.querySelectorAll(`[data-q="${n}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[n] = opt;
+  updateProgress();
+}
+
+function updateProgress() {
+  const count = Object.keys(answers).length;
+  document.getElementById('progress-text').textContent = count + ' / 25 réponses';
+  document.getElementById('progress-bar').style.width = (count / 25 * 100) + '%';
+  const left = 25 - count;
+  document.getElementById('unanswered-count').textContent =
+    left === 0 ? '✓ Toutes les questions répondues !' : left + ' question' + (left > 1 ? 's' : '') + ' sans réponse';
+  document.getElementById('submit-btn').disabled = count < 25;
+}
+
+// ─── SUBMIT ───────────────────────────────────────────────────
+function submitTest() {
+  document.getElementById('submit-section').style.display = 'none';
+  document.querySelectorAll('.opt-btn').forEach(b => b.onclick = null);
+
+  let correct = 0;
+  QUESTIONS.forEach(n => { if (answers[n] === KEYS[n]) correct++; });
+  const pct = Math.round(correct / 25 * 100);
+  const listenEst = Math.round(5 + (correct / 25) * 490);
+
+  document.getElementById('score-student').innerHTML =
+    `<strong>${studentPrenom} ${studentNom}</strong> &nbsp;·&nbsp; ${studentDept} &nbsp;·&nbsp; Test 3`;
+  document.getElementById('score-display').textContent = correct + '/25';
+  document.getElementById('score-pct').textContent = pct + '% de bonnes réponses';
+  document.getElementById('toeic-est').textContent =
+    `Estimation score Listening TOEIC : ~${listenEst}/495`;
+
+  const container = document.getElementById('correction-content');
+  container.innerHTML = '';
+
+  QUESTIONS.forEach(n => {
+    const userAns = answers[n] || null;
+    const correctAns = KEYS[n];
+    const isCorrect = userAns === correctAns;
+    const d = DATA[n];
+
+    const item = document.createElement('div');
+    item.className = 'correction-item ' + (isCorrect ? 'ci-correct' : 'ci-wrong');
+
+    let pillsHTML = '';
+    if (userAns && !isCorrect) pillsHTML += `<span class="pill pill-wrong">Votre réponse : ${userAns}</span>`;
+    pillsHTML += `<span class="pill ${isCorrect ? 'pill-correct' : 'pill-right'}">${isCorrect ? '✔' : 'Bonne réponse :'} ${correctAns}</span>`;
+
+    let responsesHTML = '';
+    ['A','B','C'].forEach(letter => {
+      let cls = 'r-wrong', icon = '';
+      if (letter === correctAns) { cls = 'r-correct'; icon = '<span class="r-icon">✔</span>'; }
+      if (letter === userAns && !isCorrect) { cls = 'r-user-wrong'; icon = '<span class="r-icon">✗</span>'; }
+      responsesHTML += `
+        <div class="response-row ${cls}">
+          <span class="r-letter">${letter}</span>
+          <span>${d.choices[letter]}</span>
+          ${icon}
+        </div>`;
+    });
+
+    item.innerHTML = `
+      <div class="ci-top">
+        <span class="ci-icon">${isCorrect ? '✔' : '✗'}</span>
+        <span class="ci-badge">Q ${n}</span>
+        <div class="ans-pills">${pillsHTML}</div>
+      </div>
+      <div class="ci-body">
+        <div class="transcript-block">
+          <div class="transcript-q">
+            <span class="speaker">Question entendue</span>
+            ${d.question}
+          </div>
+          <div class="transcript-responses">${responsesHTML}</div>
+        </div>
+        <div class="explication">
+          ${d.fr}
+          ${d.vocab ? `<div class="vocab-box"><b>📚 Vocabulaire & analyse :</b><br>${d.vocab}</div>` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  const cs = document.getElementById('correction-section');
+  cs.classList.add('visible');
+  cs.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

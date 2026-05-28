@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC Part 2 — Test 11 — Marc VASSEUR — Polytech Lille</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0d1b2a;
+    --navy2: #162840;
+    --navy3: #1e3a5f;
+    --gold:  #c8993a;
+    --gold-l:#e8b84b;
+    --cream: #f8f4ed;
+    --cream2:#f0ead8;
+    --border:#d4c5a9;
+    --text:  #1a1a2e;
+    --muted: #6b7280;
+    --correct:#1a7a4a;
+    --correct-bg:#d1fae5;
+    --wrong:  #9b1c1c;
+    --wrong-bg:#fee2e2;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+
+  /* ── HEADER ── */
+  #header {
+    background: var(--navy);
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0,0,0,.4);
+  }
+  #header-left h1 { font-family: 'Playfair Display', serif; font-size: 1.2rem; color: var(--gold-l); }
+  #header-left p  { font-family: 'JetBrains Mono', monospace; font-size: .68rem; color: #94a3b8; margin-top: 3px; letter-spacing: .07em; }
+  #progress-block { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; }
+  #progress-text  { font-family: 'JetBrains Mono', monospace; font-size: .82rem; color: #cbd5e1; }
+  #progress-bar-wrap { width: 140px; height: 5px; background: rgba(255,255,255,.15); border-radius: 99px; overflow: hidden; }
+  #progress-bar { height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-l)); border-radius: 99px; transition: width .4s; width: 0%; }
+
+  /* ── MAIN ── */
+  #main { max-width: 760px; margin: 0 auto; padding: 36px 24px 80px; }
+
+  /* ── DIRECTIONS ── */
+  .directions-box {
+    background: var(--navy2);
+    color: #e2d9c8;
+    border-left: 4px solid var(--gold);
+    padding: 18px 24px;
+    border-radius: 6px;
+    margin-bottom: 32px;
+    font-size: .88rem;
+    line-height: 1.75;
+  }
+  .directions-box strong { font-family: 'Playfair Display', serif; font-size: .95rem; color: var(--gold-l); display: block; margin-bottom: 6px; }
+
+  /* ── AUDIO PLAYER ── */
+  .audio-block {
+    background: var(--navy);
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 36px;
+    box-shadow: 0 6px 24px rgba(0,0,0,.25);
+  }
+  .audio-block-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #64748b;
+    margin-bottom: 12px;
+  }
+  .audio-block h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--gold-l);
+    margin-bottom: 6px;
+  }
+  .audio-block p {
+    font-size: .83rem;
+    color: #94a3b8;
+    margin-bottom: 18px;
+    line-height: 1.6;
+  }
+  .audio-embed {
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    height: 80px;
+    background: var(--navy2);
+  }
+  .audio-fallback {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    color: #64748b;
+  }
+  .audio-fallback a { color: var(--gold-l); text-decoration: none; }
+  .audio-fallback a:hover { text-decoration: underline; }
+
+  /* ── QUESTION GRID ── */
+  .questions-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,.07);
+    margin-bottom: 32px;
+  }
+  .questions-box-header {
+    background: var(--navy3);
+    color: var(--gold-l);
+    padding: 10px 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .75rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+  }
+  .q-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0;
+  }
+  .q-cell {
+    padding: 18px 20px;
+    border-right: 1px solid var(--cream2);
+    border-bottom: 1px solid var(--cream2);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .q-cell:nth-child(4n) { border-right: none; }
+  .q-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    color: var(--navy3);
+    font-weight: 500;
+    letter-spacing: .05em;
+  }
+  .q-options { display: flex; gap: 8px; }
+  .opt-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: 1.5px solid var(--border);
+    background: white;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .85rem;
+    font-weight: 600;
+    color: var(--navy3);
+    cursor: pointer;
+    transition: all .15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .opt-btn:hover { border-color: var(--navy3); background: #f0f4ff; }
+  .opt-btn.selected { background: var(--navy); color: var(--gold-l); border-color: var(--navy); }
+
+  /* ── SUBMIT ── */
+  #submit-section {
+    text-align: center;
+    padding: 28px;
+    background: var(--navy);
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.2);
+  }
+  #unanswered-count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--gold-l);
+    display: block;
+    margin-bottom: 8px;
+  }
+  #submit-section p { color: #94a3b8; font-size: .85rem; margin-bottom: 14px; }
+  #submit-btn {
+    background: linear-gradient(135deg, var(--gold), var(--gold-l));
+    color: var(--navy);
+    border: none;
+    padding: 13px 44px;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .2s;
+    box-shadow: 0 4px 14px rgba(200,153,58,.4);
+  }
+  #submit-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(200,153,58,.5); }
+  #submit-btn:disabled { opacity: .35; cursor: not-allowed; transform: none; }
+
+  /* ── CORRECTION ── */
+  #correction-section { display: none; }
+  #correction-section.visible { display: block; margin-top: 40px; }
+
+  .score-banner {
+    background: var(--navy);
+    color: white;
+    text-align: center;
+    padding: 36px 24px;
+    border-radius: 12px;
+    margin-bottom: 36px;
+    box-shadow: 0 8px 32px rgba(0,0,0,.25);
+  }
+  .score-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--gold-l); margin-bottom: 8px; }
+  .big-score { font-family: 'JetBrains Mono', monospace; font-size: 3.6rem; font-weight: 600; line-height: 1; }
+  .score-sub { color: #94a3b8; font-size: .88rem; margin-top: 8px; }
+  .toeic-est { margin-top: 18px; padding: 12px 24px; background: rgba(200,153,58,.15); border: 1px solid var(--gold); border-radius: 8px; display: inline-block; font-size: .92rem; color: var(--gold-l); }
+
+  .correction-item {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  }
+  .ci-correct { border-left: 4px solid var(--correct); }
+  .ci-wrong   { border-left: 4px solid var(--wrong); }
+
+  .ci-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--cream2);
+    background: var(--cream);
+  }
+  .ci-icon { font-size: 1.2rem; }
+  .ci-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .7rem;
+    font-weight: 600;
+    padding: 2px 10px;
+    border-radius: 99px;
+  }
+  .ci-correct .ci-badge { background: var(--correct-bg); color: var(--correct); }
+  .ci-wrong   .ci-badge { background: var(--wrong-bg); color: var(--wrong); }
+
+  .ans-pills { display: flex; gap: 8px; flex-wrap: wrap; margin-left: auto; }
+  .pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    padding: 3px 12px;
+    border-radius: 99px;
+    font-weight: 600;
+  }
+  .pill-correct { background: var(--correct-bg); color: var(--correct); }
+  .pill-wrong   { background: var(--wrong-bg); color: var(--wrong); text-decoration: line-through; }
+  .pill-right   { background: #dbeafe; color: #1d4ed8; }
+
+  .ci-body { padding: 16px 20px; }
+
+  .transcript-block { margin-bottom: 14px; }
+  .transcript-q {
+    background: var(--navy2);
+    color: #e2d9c8;
+    padding: 10px 14px;
+    border-radius: 8px 8px 0 0;
+    font-style: italic;
+    font-size: .9rem;
+    line-height: 1.6;
+  }
+  .transcript-q .speaker { font-family: 'JetBrains Mono', monospace; font-size: .65rem; color: var(--gold-l); display: block; margin-bottom: 4px; letter-spacing: .08em; text-transform: uppercase; }
+  .transcript-responses { border: 1px solid var(--border); border-top: none; border-radius: 0 0 8px 8px; overflow: hidden; }
+  .response-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 9px 14px;
+    font-size: .88rem;
+    border-bottom: 1px solid var(--cream2);
+    line-height: 1.5;
+  }
+  .response-row:last-child { border-bottom: none; }
+  .response-row.r-correct { background: var(--correct-bg); }
+  .response-row.r-wrong   { background: #fafafa; }
+  .response-row.r-user-wrong { background: var(--wrong-bg); }
+  .r-letter {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: .85rem;
+    min-width: 22px;
+    color: var(--navy3);
+  }
+  .response-row.r-correct .r-letter { color: var(--correct); }
+  .response-row.r-user-wrong .r-letter { color: var(--wrong); }
+  .r-icon { font-size: 1rem; margin-left: auto; flex-shrink: 0; }
+
+  .explication {
+    background: var(--cream);
+    border-left: 3px solid var(--gold);
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    font-size: .87rem;
+    line-height: 1.72;
+    color: var(--text);
+  }
+  .vocab-box {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+    font-size: .82rem;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+  .vocab-box b { color: var(--text); }
+  .vocab-box span { font-family: 'JetBrains Mono', monospace; color: var(--navy3); font-weight: 500; }
+
+  @media (max-width: 540px) {
+    #main { padding: 20px 14px 60px; }
+    .q-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+    #header { flex-wrap: wrap; gap: 10px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <div id="header-left">
+    <h1>TOEIC — Part 2 Listening · Test 11</h1>
+    <p>MARC VASSEUR &nbsp;|&nbsp; POLYTECH LILLE</p>
+  </div>
+  <div id="progress-block">
+    <div id="progress-text">0 / 25 réponses</div>
+    <div id="progress-bar-wrap"><div id="progress-bar"></div></div>
+  </div>
+</div>
+
+<div id="main">
+
+  <div class="directions-box">
+    <strong>PART 2 — Directions</strong>
+    You will hear a question or statement and three responses spoken in English. They will not be printed in your test book and will be spoken only one time. Select the best response to the question or statement and mark the letter (A), (B), or (C). Questions 7–31.
+  </div>
+
+  <div class="audio-block">
+    <div class="audio-block-label">Audio — Part 2 · Questions 7–31 (Piste 11)</div>
+    <h2>Lancez l'audio puis répondez aux questions</h2>
+    <p>Appuyez sur ▶ pour démarrer l'enregistrement. Les questions et réponses sont entendues une seule fois — comme au vrai TOEIC.</p>
+    <iframe class="audio-embed"
+      src="https://drive.google.com/file/d/1PSHKqmk0A1CubT94PIIdtleRlrWNtEWy/preview"
+      allow="autoplay"
+      loading="lazy">
+    </iframe>
+    <div class="audio-fallback">
+      Problème de lecture ?
+      <a href="https://drive.google.com/file/d/1PSHKqmk0A1CubT94PIIdtleRlrWNtEWy/view?usp=drive_link" target="_blank">
+        Ouvrir dans Google Drive ↗
+      </a>
+    </div>
+  </div>
+
+  <div class="questions-box">
+    <div class="questions-box-header">Questions 7 – 31 · Sélectionnez A, B ou C</div>
+    <div class="q-grid" id="q-grid"></div>
+  </div>
+
+  <div id="submit-section">
+    <span id="unanswered-count">25 questions sans réponse</span>
+    <p>Répondez à toutes les questions pour activer la soumission.</p>
+    <button id="submit-btn" disabled onclick="submitTest()">Terminer &amp; voir la correction</button>
+  </div>
+
+  <div id="correction-section">
+    <div class="score-banner">
+      <h2>Résultats — Marc VASSEUR — Polytech Lille</h2>
+      <div class="big-score" id="score-display">--/25</div>
+      <div class="score-sub" id="score-pct">--</div>
+      <div class="toeic-est" id="toeic-est"></div>
+    </div>
+    <div id="correction-content"></div>
+  </div>
+
+</div>
+
+<script>
+const QUESTIONS = [7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+
+const KEYS = {
+  7:'B', 8:'A', 9:'C', 10:'B', 11:'A', 12:'C', 13:'B',
+  14:'A', 15:'C', 16:'B', 17:'A', 18:'C', 19:'B', 20:'A',
+  21:'C', 22:'B', 23:'A', 24:'C', 25:'B', 26:'A', 27:'C',
+  28:'B', 29:'A', 30:'B', 31:'C'
+};
+
+const DATA = {
+  7: {
+    question: "Where can I register for the international trade seminar?",
+    choices: { A:"Yes, it's very informative.", B:"On our internal corporate portal.", C:"By next Thursday afternoon." },
+    fr: "La question commence par <em>Where</em> (Où). L'option (B) propose une localisation virtuelle valide (<em>On our internal corporate portal</em>). L'option (A) répond par 'Yes' à une question ouverte, ce qui est incorrect.",
+    vocab: "<span>Register</span> = S'inscrire | <span>Trade seminar</span> = Séminaire commercial / sur le commerce international"
+  },
+  8: {
+    question: "The legal department hasn't finalized the joint venture agreement yet, has it?",
+    choices: { A:"No, they are still debating the liability clauses.", B:"I usually clear my desk before leaving.", C:"Yes, I think it's quite illegal." },
+    fr: "Question à structure de confirmation (<em>tag question</em>) négative. L'option (A) confirme que l'accord n'est pas encore finalisé en explicitant la raison technique de ce retard.",
+    vocab: "<span>Joint venture</span> = Coentreprise | <span>Liability clauses</span> = Clauses de responsabilité juridique"
+  },
+  9: {
+    question: "Who is scheduled to present the quarterly financial audit findings?",
+    choices: { A:"The meeting room is booked.", B:"For approximately two hours.", C:"The senior risk management consultant." },
+    fr: "La question porte sur l'identité (<em>Who</em>). L'option (C) fournit le titre de la personne responsable de la présentation.",
+    vocab: "<span>Findings</span> = Conclusions / résultats d'un audit | <span>Quarterly</span> = Trimestriel"
+  },
+  10: {
+    question: "Why was the procurement team's business trip to Lyon canceled?",
+    choices: { A:"A round-trip train ticket.", B:"Because the contract negotiations fell through.", C:"The office is located near the station." },
+    fr: "<em>Why</em> attend un motif ou une explication. L'option (B) donne la raison directe de cette annulation (l'échec des négociations contractuelles) en utilisant <em>Because</em>.",
+    vocab: "<span>Procurement team</span> = Équipe des achats / approvisionnements | <span>Fell through</span> = Échouer / tomber à l'eau"
+  },
+  11: {
+    question: "When do you expect the catering service to deliver the refreshments?",
+    choices: { A:"At least thirty minutes before the workshop starts.", B:"We ordered vegetarian options.", C:"No, I don't need any assistance." },
+    fr: "Question temporelle (<em>When</em>). L'option (A) définit un positionnement dans le temps précis en fonction de l'événement.",
+    vocab: "<span>Catering service</span> = Service traiteur | <span>Refreshments</span> = Collation / rafraîchissements"
+  },
+  12: {
+    question: "Should we arrange a video call with the suppliers or email them the specifications?",
+    choices: { A:"Yes, it's a very clear design.", B:"The shipment arrived yesterday.", C:"Let's set up a call to avoid any misunderstandings." },
+    fr: "Question à choix alternatif (<em>call or email?</em>). L'option (C) tranche en faveur de l'appel en justifiant le choix qualitatif.",
+    vocab: "<span>Specifications</span> = Cahier des charges / spécifications techniques | <span>Set up</span> = Organiser / planifier"
+  },
+  13: {
+    question: "We need to install the latest software security patch by tonight.",
+    choices: { A:"The computer lab has thirty workstations.", B:"I'll ask the IT technician to handle it right away.", C:"No, it's not a very secure building." },
+    fr: "Déclaration d'obligation technique. L'option (B) répond par une prise en charge opérationnelle immédiate auprès du technicien informatique.",
+    vocab: "<span>Security patch</span> = Correctif de sécurité | <span>IT technician</span> = Informaticien / technicien système"
+  },
+  14: {
+    question: "How frequently do the facilities managers test the backup generators?",
+    choices: { A:"On the first Saturday of every month.", B:"They run on diesel fuel.", C:"The test was successful." },
+    fr: "<em>How frequently</em> interroge sur la périodicité. L'option (A) indique une récurrence calendaire fixe (<em>every month</em>).",
+    vocab: "<span>Facilities managers</span> = Responsables des infrastructures / services généraux | <span>Backup generators</span> = Groupes électrogènes de secours"
+  },
+  15: {
+    question: "Could you help me move these filing cabinets to the archive room?",
+    choices: { A:"The archives are confidential.", B:"I didn't file the report yet.", C:"Of course, let me grab a trolley first." },
+    fr: "Demande d'aide pratique. L'option (C) exprime une acceptation polie (<em>Of course</em>) suivie de la préparation de l'équipement logistique nécessaire.",
+    vocab: "<span>Filing cabinets</span> = Meubles de rangement / classeurs | <span>Trolley</span> = Chariot / diable"
+  },
+  16: {
+    question: "Which shipping company has the most competitive rates for European logistics?",
+    choices: { A:"It took four days to arrive.", B:"The one recommended by our Hamburg branch.", C:"Yes, we are highly competitive." },
+    fr: "<em>Which shipping company</em> nécessite un choix ou une désignation d'entité. L'option (B) utilise le pronom <em>The one</em> complété par une recommandation interne.",
+    vocab: "<span>Shipping company</span> = Transporteur / société de fret | <span>Branch</span> = Succursale / filiale"
+  },
+  17: {
+    question: "Let's review the floor plans for the laboratory renovation before the board meeting.",
+    choices: { A:"Good idea, we need to make sure the dimensions are correct.", B:"The laboratory is closed on weekends.", C:"No, I wasn't bored at all." },
+    fr: "Suggestion collaborative (<em>Let's...</em>). L'option (A) valide la proposition (<em>Good idea</em>) et en explicite la finalité technique.",
+    vocab: "<span>Renovation</span> = Réaménagement / rénovation | <span>Board meeting</span> = Réunion du conseil d'administration"
+  },
+  18: {
+    question: "Has the main contractor signed the building safety compliance form yet?",
+    choices: { A:"The building is made of concrete.", B:"Yes, he likes the architecture.", C:"Not yet, his legal team is still reviewing the document." },
+    fr: "Question fermée (<em>Has... yet?</em>). L'option (C) utilise la réponse négative classique <em>Not yet</em> accompagnée d'une explication sur l'état d'avancement du dossier.",
+    vocab: "<span>Contractor</span> = Entrepreneur principal / prestataire | <span>Compliance form</span> = Formulaire de conformité"
+  },
+  19: {
+    question: "Whose approval do we need to authorize this unexpected equipment lease?",
+    choices: { A:"The lease is valid for twelve months.", B:"Only the chief financial officer can approve that.", C:"I didn't expect the equipment to arrive today." },
+    fr: "<em>Whose approval</em> cible le décisionnaire. L'option (B) désigne nommément la fonction hiérarchique requise (<em>chief financial officer</em>).",
+    vocab: "<span>Lease</span> = Crédit-bail / contrat de location | <span>Chief financial officer (CFO)</span> = Directeur financier"
+  },
+  20: {
+    question: "This new office chair seems to cause a lot of back pain after a few hours.",
+    choices: { A:"You should adjust the lumbar support settings.", B:"The office supplies are in the cabinet.", C:"No, I didn't sit there." },
+    fr: "Constat d'inconfort ou de problème ergonomique. L'option (A) apporte un conseil technique ciblé pour résoudre le réglage du siège.",
+    vocab: "<span>Back pain</span> = Mal de dos / douleurs lombaires | <span>Adjust</span> = Régler / ajuster"
+  },
+  21: {
+    question: "How long does it take to process a corporate credit card application?",
+    choices: { A:"We accept Mastercard and Visa.", B:"The processing plant is near Lille.", C:"Typically between ten and fourteen business days." },
+    fr: "<em>How long</em> demande une spécification de durée. L'option (C) fournit le délai habituel exprimé en jours ouvrés (<em>business days</em>).",
+    vocab: "<span>Application</span> = Demande / dossier de souscription | <span>Business days</span> = Jours ouvrés"
+  },
+  22: {
+    question: "Why don't we partner with an external public relations agency for the product launch?",
+    choices: { A:"The product was designed in-house.", B:"That might significantly expand our media coverage.", C:"No, I don't know the agency's address." },
+    fr: "Suggestion introduite par <em>Why don't we...</em>. L'option (B) en valide l'intérêt stratégique direct pour la communication de l'entreprise.",
+    vocab: "<span>Partner with</span> = S'associer avec / faire un partenariat | <span>Media coverage</span> = Couverture médiatique"
+  },
+  23: {
+    question: "The maintenance worker hasn't repaired the air conditioning system, has he?",
+    choices: { A:"No, he's still waiting for a replacement fan belt.", B:"The room temperature is perfectly fine.", C:"Yes, I think it is very cold outside." },
+    fr: "Question à étiquette de confirmation. L'option (A) confirme l'état non résolu de la panne en y ajoutant une explication technique matérielle (la pièce détachée manquante).",
+    vocab: "<span>Maintenance worker</span> = Agent de maintenance / technicien | <span>Fan belt</span> = Courroie de ventilateur"
+  },
+  24: {
+    question: "Where can I access the archived digital schematics for the electrical grid?",
+    choices: { A:"The electrician repaired the wiring.", B:"No, I didn't see the archive.", C:"They are stored on the secure engineering server." },
+    fr: "Question de localisation de données techniques. L'option (C) précise le support réseau sécurisé dédié au stockage de ces fichiers.",
+    vocab: "<span>Schematics</span> = Schémas techniques / plans de câblage | <span>Stored</span> = Stockés / sauvegardés"
+  },
+  25: {
+    question: "Did you remember to inform the sub-contractors about the strict safety regulations?",
+    choices: { A:"The regulation was updated last year.", B:"Yes, I sent them the full safety handbook this morning.", C:"No, I don't remember where the contract is." },
+    fr: "Vérification d'une consigne administrative. L'option (B) valide la bonne exécution en indiquant le document précis transmis (<em>safety handbook</em>).",
+    vocab: "<span>Sub-contractors</span> = Sous-traitants | <span>Safety handbook</span> = Manuel / livret de sécurité"
+  },
+  26: {
+    question: "Who is responsible for inspecting the factory's automated assembly lines?",
+    choices: { A:"The quality assurance manager performs the inspections.", B:"The factory produced five thousand units.", C:"Yes, it's a fully automated system." },
+    fr: "<em>Who is responsible</em> requiert un titre ou un nom. L'option (A) désigne le responsable qualité comme opérateur de l'action.",
+    vocab: "<span>Assembly lines</span> = Lignes d'assemblage / de montage | <span>Performs</span> = Effectue / réalise"
+  },
+  27: {
+    question: "When will the data analytics team complete the market trends synthesis?",
+    choices: { A:"To optimize our global sales strategy.", B:"The trends are changing rapidly.", C:"By the end of the quarter, according to the schedule." },
+    fr: "Question sur une échéance future (<em>When</em>). L'option (C) fournit un repère temporel conforme aux jalons de planification (<em>By the end of the quarter</em>).",
+    vocab: "<span>Quarter</span> = Trimestre | <span>Schedule</span> = Calendrier / planning prévisionnel"
+  },
+  28: {
+    question: "The human resources department needs to review the severance package policy, doesn't it?",
+    choices: { A:"The package was delivered yesterday afternoon.", B:"Yes, to comply with the new labor laws.", C:"No, the resources are completely depleted." },
+    fr: "Structure de confirmation portant sur une nécessité réglementaire. L'option (B) confirme (<em>Yes</em>) et apporte la justification de mise en conformité légale.",
+    vocab: "<span>Severance package</span> = Indemnités de licenciement / de départ | <span>Comply with</span> = Se conformer à / respecter la loi"
+  },
+  29: {
+    question: "How did the production supervisor resolve the packaging material shortage?",
+    choices: { A:"By sourcing a local supplier who offered immediate delivery.", B:"The material is highly durable and lightweight.", C:"We shorted the electrical circuit by mistake." },
+    fr: "La question porte sur le moyen/procédé de résolution (<em>How</em>). L'option (A) emploie la structure en <em>By + V-ing</em> pour décrire la solution de réapprovisionnement trouvée.",
+    vocab: "<span>Shortage</span> = Pénurie / manque de stock | <span>Sourcing</span> = Trouver / contracter avec un fournisseur"
+  },
+  30: {
+    question: "Would you like me to translate the installation guide into French for the technicians?",
+    choices: { A:"The technicians are highly skilled.", B:"That would save us a lot of time, thank you.", C:"No, I didn't see the translation." },
+    fr: "Proposition d'aide technique collaborative. L'option (B) accepte chaleureusement l'offre en soulignant le gain de temps généré pour l'équipe.",
+    vocab: "<span>Save time</span> = Gagner du temps / économiser du temps | <span>Installation guide</span> = Notice de montage / guide d'installation"
+  },
+  31: {
+    question: "Haven't we already allocated the budget for the server room ventilation upgrade?",
+    choices: { A:"The servers are working perfectly today.", B:"No, the ventilation is located on the roof.", C:"Yes, it was approved during last month's financial committee." },
+    fr: "Question de vérification de statut financier (<em>Haven't we already allocated...</em>). L'option (C) confirme la validation budgétaire historique en citant l'instance décisionnelle correspondante.",
+    vocab: "<span>Allocated the budget</span> = Alloué / débloqué l'enveloppe budgétaire | <span>Upgrade</span> = Modernisation / mise à niveau"
+  }
+};
+
+const grid = document.getElementById('q-grid');
+const answers = {};
+
+QUESTIONS.forEach(n => {
+  const cell = document.createElement('div');
+  cell.className = 'q-cell';
+  cell.innerHTML = `
+    <div class="q-num">Question ${n}</div>
+    <div class="q-options">
+      <button class="opt-btn" data-q="${n}" data-opt="A" onclick="select(${n},'A',this)">A</button>
+      <button class="opt-btn" data-q="${n}" data-opt="B" onclick="select(${n},'B',this)">B</button>
+      <button class="opt-btn" data-q="${n}" data-opt="C" onclick="select(${n},'C',this)">C</button>
+    </div>
+  `;
+  grid.appendChild(cell);
+});
+
+function select(n, opt, btn) {
+  document.querySelectorAll(`[data-q="${n}"]`).forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  answers[n] = opt;
+  updateProgress();
+}
+
+function updateProgress() {
+  const count = Object.keys(answers).length;
+  document.getElementById('progress-text').textContent = count + ' / 25 réponses';
+  document.getElementById('progress-bar').style.width = (count / 25 * 100) + '%';
+  const left = 25 - count;
+  document.getElementById('unanswered-count').textContent =
+    left === 0 ? '✓ Toutes les questions répondues !' : left + ' question' + (left > 1 ? 's' : '') + ' sans réponse';
+  document.getElementById('submit-btn').disabled = count < 25;
+}
+
+function submitTest() {
+  document.getElementById('submit-section').style.display = 'none';
+  document.querySelectorAll('.opt-btn').forEach(b => b.onclick = null);
+
+  let correct = 0;
+  QUESTIONS.forEach(n => { if (answers[n] === KEYS[n]) correct++; });
+  const pct = Math.round(correct / 25 * 100);
+  const listenEst = Math.round(5 + (correct / 25) * 490);
+
+  document.getElementById('score-display').textContent = correct + '/25';
+  document.getElementById('score-pct').textContent = pct + '% de bonnes réponses';
+  document.getElementById('toeic-est').textContent = `Estimation score Listening TOEIC : ~${listenEst}/495`;
+
+  const container = document.getElementById('correction-content');
+  container.innerHTML = '';
+
+  QUESTIONS.forEach(n => {
+    const userAns = answers[n] || null;
+    const correctAns = KEYS[n];
+    const isCorrect = userAns === correctAns;
+    const d = DATA[n];
+
+    const item = document.createElement('div');
+    item.className = 'correction-item ' + (isCorrect ? 'ci-correct' : 'ci-wrong');
+
+    let pillsHTML = '';
+    if (userAns && !isCorrect) {
+      pillsHTML += `<span class="pill pill-wrong">Votre réponse : ${userAns}</span>`;
+    }
+    pillsHTML += `<span class="pill ${isCorrect ? 'pill-correct' : 'pill-right'}">${isCorrect ? '✔' : 'Bonne réponse :'} ${correctAns}</span>`;
+
+    let responsesHTML = '';
+    ['A','B','C'].forEach(letter => {
+      let cls = 'r-wrong';
+      let icon = '';
+      if (letter === correctAns) { cls = 'r-correct'; icon = '<span class="r-icon">✔</span>'; }
+      if (letter === userAns && !isCorrect) { cls = 'r-user-wrong'; icon = '<span class="r-icon">✗</span>'; }
+      responsesHTML += `
+        <div class="response-row ${cls}">
+          <span class="r-letter">${letter}</span>
+          <span>${d.choices[letter]}</span>
+          ${icon}
+        </div>`;
+    });
+
+    item.innerHTML = `
+      <div class="ci-top">
+        <span class="ci-icon">${isCorrect ? '✔' : '✗'}</span>
+        <span class="ci-badge">Q ${n}</span>
+        <div class="ans-pills">${pillsHTML}</div>
+      </div>
+      <div class="ci-body">
+        <div class="transcript-block">
+          <div class="transcript-q">
+            <span class="speaker">Question entendue</span>
+            ${d.question}
+          </div>
+          <div class="transcript-responses">${responsesHTML}</div>
+        </div>
+        <div class="explication">
+          ${d.fr}
+          ${d.vocab ? `<div class="vocab-box"><b>📚 Vocabulaire & analyse :</b><br>${d.vocab}</div>` : ''}
+        </div>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  const cs = document.getElementById('correction-section');
+  cs.classList.add('visible');
+  cs.scrollIntoView({ behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

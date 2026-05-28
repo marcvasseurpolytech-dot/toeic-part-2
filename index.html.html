@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEIC Preparation — Marc VASSEUR — Polytech Lille</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght=600;700&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy:  #0d1b2a;
+    --navy2: #162840;
+    --navy3: #1e3a5f;
+    --gold:  #c8993a;
+    --gold-l:#e8b84b;
+    --cream: #f8f4ed;
+    --cream2:#f0ead8;
+    --border:#d4c5a9;
+    --text:  #1a1a2e;
+    --muted: #6b7280;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Source Serif 4', serif; background: var(--cream); color: var(--text); min-height: 100vh; }
+  
+  /* ── HEADER ── */
+  #header { 
+    background: var(--navy); 
+    color: white; 
+    padding: 40px 24px; 
+    text-align: center;
+    border-bottom: 3px solid var(--gold);
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+  }
+  #header h1 { font-family: 'Playfair Display', serif; font-size: 2.2rem; color: var(--gold-l); margin-bottom: 8px; }
+  #header p { font-family: 'JetBrains Mono', monospace; font-size: .85rem; color: #94a3b8; letter-spacing: .08em; text-transform: uppercase; }
+
+  /* ── MAIN CONTAINER ── */
+  #main { max-width: 960px; margin: 0 auto; padding: 48px 24px 80px; }
+
+  /* ── INTRO BOX ── */
+  .intro-box {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 48px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.04);
+  }
+  .intro-box h2 { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 12px; }
+  .intro-box p { font-size: .95rem; line-height: 1.7; color: #334155; margin-bottom: 16px; }
+  .intro-box p:last-child { margin-bottom: 0; }
+
+  /* ── SECTION TITLE ── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    color: var(--navy);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex-grow: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  /* ── MENU GRID ── */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  /* ── CARD STYLING ── */
+  .menu-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    text-decoration: none;
+    color: var(--text);
+    box-shadow: 0 2px 8px rgba(0,0,0,.04);
+    transition: all .2s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 240px;
+  }
+  .menu-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--navy);
+    box-shadow: 0 8px 24px rgba(13,27,42,.12);
+  }
+  
+  .card-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .68rem;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .card-new {
+    background: #ef4444;
+    color: white;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: .6rem;
+    font-weight: 600;
+  }
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+  .card-desc {
+    font-size: .85rem;
+    line-height: 1.6;
+    color: #475569;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-button {
+    margin-top: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: .03em;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    transition: color .2s;
+  }
+  .menu-card:hover .card-button {
+    color: var(--navy);
+  }
+
+  /* ── FOOTER ── */
+  #footer {
+    text-align: center;
+    margin-top: 64px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: .72rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
+  }
+
+  @media (max-width: 640px) {
+    #header h1 { font-size: 1.7rem; }
+    .menu-grid { grid-template-columns: 1fr; }
+    .menu-card { height: auto; min-height: 200px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="header">
+  <h1>TOEIC Listening Preparation Platform</h1>
+  <p>Enseignement d'Ouverture &bull; Marc VASSEUR &bull; Polytech Lille</p>
+</div>
+
+<div id="main">
+
+  <div class="intro-box">
+    <h2>Entraînement intensif — Part 2 : Questions-Réponses</h2>
+    <p>Bienvenue sur l'interface de préparation au TOEIC. Chaque module ci-dessous comprend un enregistrement audio complet de 25 questions, une interface de réponse interactive ainsi qu'une correction intégrale documentée en français accompagnée de fiches de vocabulaire contextuel.</p>
+    <p>Prenez un casque, lancez la piste et entraînez-vous dans les conditions réelles de l'examen.</p>
+  </div>
+
+  <h2 class="section-title">Modules de Practice Tests</h2>
+
+  <div class="menu-grid">
+
+    <a href="toeic_part2_test1.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 1</h3>
+        <p class="card-desc">Questions 7 à 31. Idéal pour appréhender les structures fondamentales, les questions en Wh- et les expressions de temps directes.</p>
+      </div>
+      <div class="card-button">Lancer le Test 1 →</div>
+    </a>
+
+    <a href="toeic_part2_test2.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 2</h3>
+        <p class="card-desc">Questions 7 à 31. Accent mis sur les questions alternatives, l'identification des responsabilités en entreprise et la gestion d'agenda.</p>
+      </div>
+      <div class="card-button">Lancer le Test 2 →</div>
+    </a>
+
+    <a href="toeic_part2_test3.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 3</h3>
+        <p class="card-desc">Questions 7 à 31. Thèmes principaux : réunions d'équipe, logistique, pannes d'équipement et infrastructure de bureau.</p>
+      </div>
+      <div class="card-button">Lancer le Test 3 →</div>
+    </a>
+
+    <a href="toeic_part2_test4.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 4</h3>
+        <p class="card-desc">Questions 7 à 31. Entraînement basé sur la Piste 2. Analyse précise des homophones piégeux et des stratégies de contournement 'Yes/No'.</p>
+      </div>
+      <div class="card-button">Lancer le Test 4 →</div>
+    </a>
+
+    <a href="toeic_part2_test5.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 5</h3>
+        <p class="card-desc">Questions 7 à 31. Décryptage des formulations idiomatiques avancées, expressions de cause complexes et requêtes indirectes de service.</p>
+      </div>
+      <div class="card-button">Lancer le Test 5 →</div>
+    </a>
+
+    <a href="toeic_part2_test6.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 6</h3>
+        <p class="card-desc">Questions 7 à 31. Traite de la gestion budgétaire, des refontes de sites web, des audits financiers et de la maintenance des lignes de production.</p>
+      </div>
+      <div class="card-button">Lancer le Test 6 →</div>
+    </a>
+
+    <a href="toeic_part2_test7.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 7</h3>
+        <p class="card-desc">Scénarios avancés : contrats de baux commerciaux, validations par le conseil d'administration et conformité des audits informatiques.</p>
+      </div>
+      <div class="card-button">Lancer le Test 7 →</div>
+    </a>
+
+    <a href="toeic_part2_test8.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 8</h3>
+        <p class="card-desc">Focus métier approfondi : protocoles de cybersécurité, rapports fiscaux trimestriels et avancement des livrables.</p>
+      </div>
+      <div class="card-button">Lancer le Test 8 →</div>
+    </a>
+
+    <a href="toeic_part2_test9.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 9</h3>
+        <p class="card-desc">Maquettes publicitaires, suivi d'ingénierie qualité sur ligne de production, exercices de sécurité et gestion de tableurs analytiques.</p>
+      </div>
+      <div class="card-button">Lancer le Test 9 →</div>
+    </a>
+
+    <a href="toeic_part2_test10.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 10</h3>
+        <p class="card-desc">Lancement de plateformes e-commerce, arrêts techniques planifiés, diagnostics d'autonomie matérielle et arbitrages de supply chain.</p>
+      </div>
+      <div class="card-button">Lancer le Test 10 →</div>
+    </a>
+
+    <a href="toeic_part2_test11.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs</div>
+        <h3 class="card-title">Practice Test 11</h3>
+        <p class="card-desc">Séminaires internationaux, clauses contractuelles de responsabilité, pannes de ventilation serveur et correctifs de sécurité critiques.</p>
+      </div>
+      <div class="card-button">Lancer le Test 11 →</div>
+    </a>
+
+    <a href="toeic_part2_test12.html" class="menu-card">
+      <div>
+        <div class="card-tag">Listening • 25 Qs <span class="card-new">Nouveau</span></div>
+        <h3 class="card-title">Practice Test 12</h3>
+        <p class="card-desc">Dossiers de fusions, plans de structures, accords de confidentialité (NDA), bourrages de périphériques et renégociation de matières premières.</p>
+      </div>
+      <div class="card-button">Lancer le Test 12 →</div>
+    </a>
+
+  </div>
+
+  <div id="footer">
+    Polytech Lille &bull; Département des Langues &bull; Plateforme de révision interactive 2026
+  </div>
+
+</div>
+
+</body>
+</html>
